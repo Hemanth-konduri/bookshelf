@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
@@ -7,7 +8,7 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static('public'));
 
-mongoose.connect('mongodb+srv://kondurihemanth62_db_user:PfMDI1iWTJ4f74GX@cluster0.kuvzqb6.mongodb.net/');
+mongoose.connect(process.env.MONGO_URI);
 
 const bookSchema = new mongoose.Schema({
   title: { type: String, required: true },
@@ -46,4 +47,5 @@ app.delete('/api/books/:id', async (req, res) => {
   res.json({ message: 'Deleted' });
 });
 
-app.listen(3000, () => console.log('ReadLog running on http://localhost:3000'));
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`ReadLog running on port ${PORT}`));
